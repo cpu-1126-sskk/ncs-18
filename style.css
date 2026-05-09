@@ -414,42 +414,77 @@ h1 {
 }
 
 .needle {
-    stroke: #ff3d00;
-    stroke-width: 4;
+    stroke: #ff5252;
+    stroke-width: 3;
     stroke-linecap: round;
-    filter: drop-shadow(0 0 5px rgba(255, 61, 0, 0.5));
+    filter: drop-shadow(0 0 5px rgba(255, 82, 82, 0.4));
 }
 
-.needle-base {
+.needle-pivot-outer {
     fill: var(--bg-color);
-    stroke: var(--glass-border);
-    stroke-width: 1;
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1.5;
 }
 
-.needle-center {
-    fill: #ff3d00;
+.needle-pivot-inner {
+    fill: #ff5252;
 }
 
 .score-display {
     position: absolute;
-    bottom: 20px;
+    top: 55%; /* Centered within the arc's vertical space */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     text-align: center;
+    width: 100%;
+    pointer-events: none;
+}
+
+.score-main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 8px;
 }
 
 .score-value {
-    font-size: 4rem;
+    font-size: 5.5rem; /* Even bolder and larger */
     font-weight: 800;
-    font-family: var(--font-heading);
-    color: var(--text-primary);
-    display: block;
-    line-height: 1;
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    line-height: 0.8;
+    letter-spacing: -3px;
+    text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.score-total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 8px; /* Align with the bottom of the main number */
+}
+
+.score-slash {
+    display: none;
 }
 
 .score-max {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-color); /* Use accent color for the max score for better hierarchy */
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+.score-max::before {
+    content: 'OUT OF';
+    display: block;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
     color: var(--text-secondary);
+    opacity: 0.5;
+    margin-bottom: 2px;
 }
 
 .result-content h3 {

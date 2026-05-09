@@ -60,13 +60,18 @@
                             <!-- Needle -->
                             <g id="needle-group" class="needle-group">
                                 <path class="needle" d="M100,100 L100,35" />
-                                <circle class="needle-base" cx="100" cy="100" r="8" />
-                                <circle class="needle-center" cx="100" cy="100" r="3" />
+                                <circle class="needle-pivot-outer" cx="100" cy="100" r="6" />
+                                <circle class="needle-pivot-inner" cx="100" cy="100" r="2" />
                             </g>
                         </svg>
                         <div class="score-display">
-                            <span id="final-score" class="score-value">0</span>
-                            <span class="score-max">/ 90</span>
+                            <div class="score-main">
+                                <span id="final-score" class="score-value">0</span>
+                                <div class="score-total">
+                                    <span class="score-slash">/</span>
+                                    <span class="score-max">90</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
