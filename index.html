@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认知需求量表 (NCS-18) | 智性交互测评</title>
+    <meta name="description" content="专业认知需求量表交互测评，探索你的智性好奇心与思考偏好。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <main class="container">
+        <header class="hero">
+            <h1 id="main-title">认知需求量表 <span class="accent">(NCS-18)</span></h1>
+            <p class="subtitle">请根据您的实际情况，对以下 18 个描述进行评分。探索您对复杂思考的偏好程度。</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <span class="progress-text" id="progress-text">进度: 0/18</span>
+            </div>
+        </header>
+
+        <section id="quiz-section" class="quiz-card">
+            <form id="ncs-form">
+                <div id="questions-container">
+                    <!-- Questions will be injected here -->
+                </div>
+                
+                <div class="form-footer">
+                    <button type="submit" id="submit-btn" class="primary-btn" disabled>提交并计算得分</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="result-section" class="result-card hidden">
+            <div class="result-header">
+                <h2>测评结果</h2>
+                <div class="score-display">
+                    <span id="final-score" class="score-value">0</span>
+                    <span class="score-max">/ 90</span>
+                </div>
+            </div>
+            
+            <div class="result-content">
+                <h3 id="result-title">评估中...</h3>
+                <p id="result-description"></p>
+                
+                <div class="reference-box">
+                    <h4>结果参考</h4>
+                    <ul>
+                        <li><span class="label high">🎯 高认知需求 (≥72):</span> 享受智力挑战，主动分析高难度信息。</li>
+                        <li><span class="label medium">⚖️ 中等认知需求 (46-71):</span> 平衡思考投入，根据重要程度分配资源。</li>
+                        <li><span class="label low">⚡ 低认知需求 (≤45):</span> 倾向直觉经验，偏好无需过度脑力的任务。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button id="restart-btn" class="secondary-btn">重新测评</button>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>Built for 康康 | Designed by AG (引力)</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

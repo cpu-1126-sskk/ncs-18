@@ -1,0 +1,322 @@
+:root {
+    --bg-color: #0a0a0c;
+    --card-bg: rgba(23, 23, 26, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-color: #7c4dff;
+    --accent-glow: rgba(124, 77, 255, 0.3);
+    --text-primary: #f8f9fa;
+    --text-secondary: #a0a0ab;
+    --success: #00e676;
+    --warning: #ffd600;
+    --info: #00b0ff;
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.bg-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(124, 77, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 176, 255, 0.1) 0%, transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.accent {
+    color: var(--accent-color);
+    text-shadow: 0 0 20px var(--accent-glow);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--progress, 0%);
+    background: linear-gradient(90deg, var(--accent-color), #00b0ff);
+    box-shadow: 0 0 10px var(--accent-glow);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Quiz Card */
+.quiz-card, .result-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.question-item {
+    margin-bottom: 3.5rem;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.question-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.option-label {
+    cursor: pointer;
+    position: relative;
+}
+
+.option-label input {
+    position: absolute;
+    opacity: 0;
+}
+
+.option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    min-height: 80px;
+}
+
+.option-label:hover .option-content {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.option-label input:checked + .option-content {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: translateY(-2px);
+}
+
+.option-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+/* Buttons */
+.form-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.primary-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 1.2rem 3rem;
+    border-radius: 100px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px var(--accent-glow);
+}
+
+.primary-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px var(--accent-glow);
+    filter: brightness(1.1);
+}
+
+.primary-btn:disabled {
+    background: #333;
+    box-shadow: none;
+    cursor: not-allowed;
+    color: #666;
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-primary);
+}
+
+/* Results */
+.hidden {
+    display: none;
+}
+
+.result-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.score-display {
+    margin-top: 1.5rem;
+}
+
+.score-value {
+    font-size: 5rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--accent-color);
+}
+
+.score-max {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.result-content h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.result-content p {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.reference-box {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.reference-box h4 {
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+}
+
+.reference-box ul {
+    list-style: none;
+}
+
+.reference-box li {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.label {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.label.high { color: var(--info); }
+.label.medium { color: var(--success); }
+.label.low { color: var(--warning); }
+
+.app-footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-bottom: 4rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    opacity: 0.6;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
