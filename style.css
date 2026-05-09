@@ -404,8 +404,6 @@ h1 {
     stroke: url(#gauge-gradient);
     stroke-width: 12;
     stroke-linecap: round;
-    stroke-dasharray: 440;
-    stroke-dashoffset: 440;
     transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 0 8px var(--accent-glow));
 }

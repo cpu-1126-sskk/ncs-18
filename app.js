@@ -215,9 +215,19 @@ function showResults(score, dimScores, timeSpent) {
     // 2. Animate Gauge & Needle
     const fill = document.getElementById('gauge-fill');
     const needleGroup = document.getElementById('needle-group');
-    const percentage = score / 90;
-    fill.style.strokeDashoffset = 440 * (1 - percentage);
-    needleGroup.style.transform = `rotate(${(percentage * 180) - 90}deg)`;
+    
+    // Normalize score: min is 18, max is 90. Range is 72.
+    const normalizedScore = Math.max(18, Math.min(90, score));
+    const percentage = (normalizedScore - 18) / 72;
+    
+    // Precise arc length for r=80 semi-circle is 80 * PI ≈ 251.3
+    const arcLength = 251.3;
+    fill.style.strokeDasharray = `${arcLength} ${arcLength}`;
+    fill.style.strokeDashoffset = arcLength * (1 - percentage);
+
+    // Needle rotation: from -90deg to 90deg
+    const rotation = (percentage * 180) - 90;
+    needleGroup.style.transform = `rotate(${rotation}deg)`;
 
     // 3. Animate score text
     let current = 0;
