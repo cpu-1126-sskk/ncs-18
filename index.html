@@ -73,8 +73,28 @@
             </div>
             
             <div class="result-content">
-                <h3 id="result-title">评估中...</h3>
-                <p id="result-description"></p>
+                <div class="result-main-info">
+                    <h3 id="result-title">评估中...</h3>
+                    <div id="confidence-warning" class="warning-box hidden"></div>
+                    <p id="result-description"></p>
+                    <div id="fuzzy-description" class="fuzzy-box hidden"></div>
+                </div>
+
+                <div class="dimensions-container">
+                    <div class="radar-chart-wrapper">
+                        <svg id="radar-chart" class="radar-svg" viewBox="0 0 200 200">
+                            <!-- Radar layers will be injected here -->
+                        </svg>
+                        <div class="dimension-labels">
+                            <span class="dim-label d1">复杂性偏好</span>
+                            <span class="dim-label d2">认知坚持性</span>
+                            <span class="dim-label d3">思考乐趣</span>
+                        </div>
+                    </div>
+                    <div class="dimension-details" id="dimension-details">
+                        <!-- Details will be injected here -->
+                    </div>
+                </div>
                 
                 <div class="reference-box">
                     <h4>结果参考</h4>
@@ -86,7 +106,10 @@
                 </div>
             </div>
 
-            <button id="restart-btn" class="secondary-btn">重新测评</button>
+            <div class="result-actions">
+                <button id="restart-btn" class="secondary-btn">重新测评</button>
+                <div id="time-spent" class="time-footer">耗时: --</div>
+            </div>
         </section>
     </main>
 
