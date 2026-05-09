@@ -401,20 +401,35 @@ h1 {
 
 .gauge-fill {
     fill: none;
-    stroke: var(--accent-color);
+    stroke: url(#gauge-gradient);
     stroke-width: 12;
     stroke-linecap: round;
-    stroke-dasharray: 440; /* Approximate length of the arc */
+    stroke-dasharray: 440;
     stroke-dashoffset: 440;
     transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
-.gauge-pointer {
-    fill: white;
-    stroke: var(--accent-color);
-    stroke-width: 2;
-    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+.needle-group {
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: 100px 100px;
+}
+
+.needle {
+    stroke: #ff3d00;
+    stroke-width: 4;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 5px rgba(255, 61, 0, 0.5));
+}
+
+.needle-base {
+    fill: var(--bg-color);
+    stroke: var(--glass-border);
+    stroke-width: 1;
+}
+
+.needle-center {
+    fill: #ff3d00;
 }
 
 .score-display {
@@ -448,7 +463,11 @@ h1 {
 .result-content p {
     color: var(--text-secondary);
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin: 0 auto 2.5rem;
+    max-width: 520px;
+    text-wrap: balance; /* Modern CSS to prevent orphans */
+    line-height: 1.8;
+    font-size: 1.05rem;
 }
 
 .reference-box {

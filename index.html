@@ -49,9 +49,20 @@
                 <div class="score-visual-wrapper">
                     <div class="gauge-container">
                         <svg class="gauge-svg" viewBox="0 0 200 120">
+                            <defs>
+                                <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#7c4dff" />
+                                    <stop offset="100%" stop-color="#00b0ff" />
+                                </linearGradient>
+                            </defs>
                             <path class="gauge-bg" d="M20,100 A80,80 0 0,1 180,100" />
                             <path id="gauge-fill" class="gauge-fill" d="M20,100 A80,80 0 0,1 180,100" />
-                            <circle id="gauge-pointer" class="gauge-pointer" cx="20" cy="100" r="6" />
+                            <!-- Needle -->
+                            <g id="needle-group" class="needle-group">
+                                <path class="needle" d="M100,100 L100,35" />
+                                <circle class="needle-base" cx="100" cy="100" r="8" />
+                                <circle class="needle-center" cx="100" cy="100" r="3" />
+                            </g>
                         </svg>
                         <div class="score-display">
                             <span id="final-score" class="score-value">0</span>

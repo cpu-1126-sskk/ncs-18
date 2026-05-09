@@ -190,21 +190,16 @@ function showResults(score) {
 
     // Animate Gauge
     const fill = document.getElementById('gauge-fill');
-    const pointer = document.getElementById('gauge-pointer');
+    const needleGroup = document.getElementById('needle-group');
     const percentage = score / 90;
     
     // Arc length is ~440. Offset = 440 * (1 - percentage)
     const offset = 440 * (1 - percentage);
     fill.style.strokeDashoffset = offset;
 
-    // Pointer position (semi-circle)
-    // Angle from 0 to 180 degrees. percentage * 180.
-    // Center is (100, 100), radius is 80.
-    const angle = Math.PI + (percentage * Math.PI);
-    const px = 100 + 80 * Math.cos(angle);
-    const py = 100 + 80 * Math.sin(angle);
-    pointer.setAttribute('cx', px);
-    pointer.setAttribute('cy', py);
+    // Needle rotation: from -90deg to 90deg
+    const rotation = (percentage * 180) - 90;
+    needleGroup.style.transform = `rotate(${rotation}deg)`;
 
     // Animate score text
     let current = 0;
