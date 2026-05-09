@@ -27,6 +27,11 @@ const options = [
     { label: "完全符合", value: 5 }
 ];
 
+// State
+let currentIndex = 0;
+let answers = new Array(questions.length).fill(null);
+
+// Elements
 const container = document.getElementById('questions-container');
 const form = document.getElementById('ncs-form');
 const submitBtn = document.getElementById('submit-btn');
@@ -38,61 +43,136 @@ const finalScoreDisplay = document.getElementById('final-score');
 const resultTitle = document.getElementById('result-title');
 const resultDescription = document.getElementById('result-description');
 const restartBtn = document.getElementById('restart-btn');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const stepIndicator = document.getElementById('step-indicator');
 
 // Initialize questions
 function initQuiz() {
-    container.innerHTML = '';
-    questions.forEach((q, index) => {
-        const questionEl = document.createElement('div');
-        questionEl.className = 'question-item';
-        questionEl.style.animationDelay = `${index * 0.1}s`;
-        
-        let optionsHtml = '';
-        options.forEach(opt => {
-            optionsHtml += `
-                <label class="option-label">
-                    <input type="radio" name="q${index}" value="${opt.value}" required>
-                    <div class="option-content">
-                        <span class="option-number">${opt.value}</span>
-                        <span class="option-text">${opt.label}</span>
-                    </div>
-                </label>
-            `;
-        });
-
-        questionEl.innerHTML = `
-            <span class="question-text">${q.text}</span>
-            <div class="options-grid">
-                ${optionsHtml}
-            </div>
-        `;
-        container.appendChild(questionEl);
-    });
-
-    // Add event listeners for progress tracking
-    form.addEventListener('change', updateProgress);
+    renderQuestion(0);
+    updateProgress();
 }
 
-function updateProgress() {
-    const formData = new FormData(form);
-    const answeredCount = Array.from(formData.keys()).length;
-    const percentage = (answeredCount / questions.length) * 100;
+function renderQuestion(index, direction = 'none') {
+    const q = questions[index];
+    const questionEl = document.createElement('div');
+    questionEl.className = 'question-item';
     
-    document.documentElement.style.setProperty('--progress', `${percentage}%`);
-    progressText.innerText = `进度: ${answeredCount}/${questions.length}`;
+    // Add transition classes
+    if (direction === 'next') questionEl.classList.add('slide-in-right');
+    else if (direction === 'prev') questionEl.classList.add('slide-in-left');
+
+    let optionsHtml = '';
+    options.forEach(opt => {
+        const isChecked = answers[index] == opt.value ? 'checked' : '';
+        optionsHtml += `
+            <label class="option-label">
+                <input type="radio" name="q${index}" value="${opt.value}" ${isChecked}>
+                <div class="option-content">
+                    <span class="option-number">${opt.value}</span>
+                    <span class="option-text">${opt.label}</span>
+                </div>
+            </label>
+        `;
+    });
+
+    questionEl.innerHTML = `
+        <span class="question-text">${q.text}</span>
+        <div class="options-grid">
+            ${optionsHtml}
+        </div>
+    `;
+
+    // Swap containers with animation
+    const oldQuestion = container.querySelector('.question-item');
+    if (oldQuestion) {
+        oldQuestion.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
+        setTimeout(() => {
+            container.innerHTML = '';
+            container.appendChild(questionEl);
+            attachOptionListeners(questionEl, index);
+        }, 400);
+    } else {
+        container.appendChild(questionEl);
+        attachOptionListeners(questionEl, index);
+    }
+
+    // Update nav buttons
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = answers[index] === null || index === questions.length - 1;
+    stepIndicator.innerText = `${index + 1} / ${questions.length}`;
     
-    if (answeredCount === questions.length) {
-        submitBtn.disabled = false;
+    // Show/hide submit button
+    if (index === questions.length - 1 && answers.every(a => a !== null)) {
+        submitBtn.parentElement.classList.remove('hidden');
+    } else {
+        submitBtn.parentElement.classList.add('hidden');
     }
 }
 
+function attachOptionListeners(element, index) {
+    const radios = element.querySelectorAll('input[type="radio"]');
+    radios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            answers[index] = parseInt(e.target.value);
+            updateProgress();
+            
+            // Auto-advance
+            if (index < questions.length - 1) {
+                setTimeout(() => {
+                    goToNext();
+                }, 400);
+            } else {
+                nextBtn.disabled = false;
+                if (answers.every(a => a !== null)) {
+                    submitBtn.disabled = false;
+                    submitBtn.parentElement.classList.remove('hidden');
+                }
+            }
+        });
+    });
+}
+
+function goToNext() {
+    if (currentIndex < questions.length - 1 && answers[currentIndex] !== null) {
+        currentIndex++;
+        renderQuestion(currentIndex, 'next');
+    }
+}
+
+function goToPrev() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion(currentIndex, 'prev');
+    }
+}
+
+function updateProgress() {
+    const answeredCount = answers.filter(a => a !== null).length;
+    const percentage = (answeredCount / questions.length) * 100;
+    
+    document.documentElement.style.setProperty('--progress', `${percentage}%`);
+    progressText.innerHTML = `<span>进度: ${answeredCount}/${questions.length}</span><span>${Math.round(percentage)}%</span>`;
+    
+    // Add glow effect to progress bar
+    const bar = document.querySelector('.progress-bar');
+    if (!bar.querySelector('.progress-glow')) {
+        const glow = document.createElement('div');
+        glow.className = 'progress-glow';
+        bar.appendChild(glow);
+    }
+}
+
+// Navigation Events
+prevBtn.addEventListener('click', goToPrev);
+nextBtn.addEventListener('click', goToNext);
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
     let totalScore = 0;
 
     questions.forEach((q, index) => {
-        const rawScore = parseInt(formData.get(`q${index}`));
+        const rawScore = answers[index];
         if (q.isPositive) {
             totalScore += rawScore;
         } else {
@@ -108,15 +188,34 @@ function showResults(score) {
     resultSection.classList.remove('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Animate score
+    // Animate Gauge
+    const fill = document.getElementById('gauge-fill');
+    const pointer = document.getElementById('gauge-pointer');
+    const percentage = score / 90;
+    
+    // Arc length is ~440. Offset = 440 * (1 - percentage)
+    const offset = 440 * (1 - percentage);
+    fill.style.strokeDashoffset = offset;
+
+    // Pointer position (semi-circle)
+    // Angle from 0 to 180 degrees. percentage * 180.
+    // Center is (100, 100), radius is 80.
+    const angle = Math.PI + (percentage * Math.PI);
+    const px = 100 + 80 * Math.cos(angle);
+    const py = 100 + 80 * Math.sin(angle);
+    pointer.setAttribute('cx', px);
+    pointer.setAttribute('cy', py);
+
+    // Animate score text
     let current = 0;
-    const duration = 1000;
+    const duration = 1500;
     const start = performance.now();
 
     function animate(time) {
         const elapsed = time - start;
         const progress = Math.min(elapsed / duration, 1);
-        const value = Math.floor(progress * score);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+        const value = Math.floor(easeProgress * score);
         finalScoreDisplay.innerText = value;
         
         if (progress < 1) {
@@ -139,12 +238,13 @@ function showResults(score) {
 }
 
 restartBtn.addEventListener('click', () => {
+    currentIndex = 0;
+    answers = new Array(questions.length).fill(null);
     form.reset();
-    document.documentElement.style.setProperty('--progress', `0%`);
-    progressText.innerText = `进度: 0/18`;
-    submitBtn.disabled = true;
+    updateProgress();
     resultSection.classList.add('hidden');
     quizSection.classList.remove('hidden');
+    renderQuestion(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 

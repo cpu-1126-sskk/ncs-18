@@ -25,8 +25,16 @@
 
         <section id="quiz-section" class="quiz-card">
             <form id="ncs-form">
-                <div id="questions-container">
-                    <!-- Questions will be injected here -->
+                <div id="questions-wrapper">
+                    <div id="questions-container">
+                        <!-- Current question will be injected here -->
+                    </div>
+                </div>
+                
+                <div class="form-navigation">
+                    <button type="button" id="prev-btn" class="nav-btn" disabled>上一题</button>
+                    <div class="step-indicator" id="step-indicator">1 / 18</div>
+                    <button type="button" id="next-btn" class="nav-btn" disabled>下一题</button>
                 </div>
                 
                 <div class="form-footer">
@@ -38,9 +46,18 @@
         <section id="result-section" class="result-card hidden">
             <div class="result-header">
                 <h2>测评结果</h2>
-                <div class="score-display">
-                    <span id="final-score" class="score-value">0</span>
-                    <span class="score-max">/ 90</span>
+                <div class="score-visual-wrapper">
+                    <div class="gauge-container">
+                        <svg class="gauge-svg" viewBox="0 0 200 120">
+                            <path class="gauge-bg" d="M20,100 A80,80 0 0,1 180,100" />
+                            <path id="gauge-fill" class="gauge-fill" d="M20,100 A80,80 0 0,1 180,100" />
+                            <circle id="gauge-pointer" class="gauge-pointer" cx="20" cy="100" r="6" />
+                        </svg>
+                        <div class="score-display">
+                            <span id="final-score" class="score-value">0</span>
+                            <span class="score-max">/ 90</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
