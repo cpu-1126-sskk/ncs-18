@@ -250,7 +250,7 @@ function showResults(score, dimScores, timeSpent) {
         fuzzyDescription.innerText = "您的得分处于临界跃升状态，展现出极强的深度思考意愿，但在面对极度消耗脑力的情境时，依然保留了保护认知资源的本能。";
         fuzzyDescription.classList.remove('hidden');
     } else if (score >= 42 && score <= 48) {
-        fuzzyDescription.innerText = "您的得分处于过渡区域。您并不排斥思考，但通常需要一个明确的外部理由或压力来启动深层认知加工。";
+        fuzzyDescription.innerText = "您的得分显示您正处于认知风格的摇摆区。您完全具备处理复杂信息的能力，但在日常情境下更倾向于选择“认知吝啬”（Cognitive Miser）模式，即优先保护心理能量，除非遇到必须解决的智力障碍，否则较少主动进入深度反思。";
         fuzzyDescription.classList.remove('hidden');
     }
 
